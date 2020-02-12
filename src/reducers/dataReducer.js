@@ -1,4 +1,13 @@
-import { FETCH_DATA,LATEST_DATA,PARAMETER_ONE_DATA,PARAMETER_TWO_DATA,PARAMETER_THREE_DATA,GET_TIME } from '../actions/type'
+import { FETCH_DATA,
+            LATEST_DATA,
+            PARAMETER_ONE_DATA,
+            PARAMETER_TWO_DATA,
+            PARAMETER_THREE_DATA,
+            GET_TIME,
+            ALERT_COUNT,
+            LAST_POWER_OUTAGE,
+            LAST_POWER_OUTAGE_TIME
+         } from '../actions/type'
 
 const initialState = {
     data : {},
@@ -6,8 +15,11 @@ const initialState = {
     latestData : {},
     parameterOneData : [],
     parameterTwoData : [],
-    parameterTwoData : [],
-    getTime : []
+    parameterThreeData : [],
+    getTime : [],
+    alertCount : {},
+    lastPowerOutage : {},
+    lastPowerOutageTime : {}
     
 }
 
@@ -50,6 +62,21 @@ export default function(state = initialState, action) {
             getTime : action.payload,
             loading : false
         }
+        case ALERT_COUNT:
+          return {
+              ...state,
+              alertCount : action.payload
+          }
+        case LAST_POWER_OUTAGE:
+            return {
+                ...state,
+                lastPowerOutage : action.payload
+            } 
+        case LAST_POWER_OUTAGE_TIME:
+            return {
+                ...state,
+                lastPowerOutageTime : action.payload 
+            }     
         default:
             return state;
     }

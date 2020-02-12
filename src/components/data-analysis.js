@@ -1,8 +1,15 @@
-import React,{useEffect,useState} from 'react';
-import { LineChart } from 'react-chartkick'
+import React,{useEffect} from 'react';
+
 import 'chart.js';
 import { useSelector,useDispatch } from 'react-redux';
-import { startAnalysis, fetchData, latestData, parameterOneData, parameterTwoData, parameterThreeData, getTinme } from '../actions/dataAction';
+import { startAnalysis, 
+        fetchData, 
+        latestData, 
+        parameterOneData, 
+        parameterTwoData, 
+        parameterThreeData, 
+        getTinme, alertCount, 
+        lastPowerOutage, lastPowerOutageTime } from '../actions/dataAction';
 import {Line} from 'react-chartjs-2';
 import moment from 'moment';
 
@@ -16,13 +23,16 @@ const DataAnalysis = () => {
   
 
    useEffect(() => {
-     if(dataAnalysisData.loading == true){
+     if(dataAnalysisData.loading === true){
          dispatch(fetchData());
          dispatch(latestData());
          dispatch(parameterOneData());
          dispatch(parameterTwoData());
          dispatch(parameterThreeData());
          dispatch(getTinme())
+         dispatch(alertCount())
+         dispatch(lastPowerOutage())
+         dispatch(lastPowerOutageTime())
   
       }
    })
@@ -44,6 +54,12 @@ const DataAnalysis = () => {
                          <div className='card-body'>
                               <div className='card-title'>
                                   Power Outage(in minutes)
+                              </div>
+                              <div className='card-text'>
+                                  {dataAnalysisData.loading === false ?
+                                       dataAnalysisData.lastPowerOutageTime.time
+                                       : null  
+                                  }
                               </div> 
                          </div>  
                     </div>
@@ -53,6 +69,11 @@ const DataAnalysis = () => {
                          <div className='card-body'>
                               <div className='card-title'>
                                   Last Power Outage
+
+                              </div>
+                              <div className='card-text'>
+                                   {dataAnalysisData.loading === false && dataAnalysisData.lastPowerOutage.length > 0
+                                    ? moment(dataAnalysisData.lastPowerOutage[0].created_at).format('MMMM Do YYYY, h:mm:ss a') : null} 
                               </div>
                          </div>  
                     </div>
@@ -61,8 +82,15 @@ const DataAnalysis = () => {
                 <div className='card'>
                          <div className='card-body'>
                          <div className ='card-title'> 
-                                 Critical Alert  
-                         </div> 
+                                 Critical Alert
+                                   
+                         </div>
+                         <div className='card-text'>
+                              {dataAnalysisData.loading === false ?
+                                dataAnalysisData.alertCount.count
+                                : null    
+                            }
+                           </div> 
                          </div>  
                     </div>
                 </div> 

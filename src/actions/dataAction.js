@@ -1,4 +1,12 @@
-import { FETCH_DATA,LATEST_DATA,PARAMETER_ONE_DATA,PARAMETER_TWO_DATA,PARAMETER_THREE_DATA,GET_TIME } from './type';
+import { FETCH_DATA,
+        LATEST_DATA,
+        PARAMETER_ONE_DATA,
+        PARAMETER_TWO_DATA,
+        PARAMETER_THREE_DATA,
+        GET_TIME,
+        LAST_POWER_OUTAGE,
+        ALERT_COUNT, 
+        LAST_POWER_OUTAGE_TIME } from './type';
 import axios from 'axios';
 import { config } from '../config/config';
 
@@ -78,4 +86,40 @@ export const getTinme = () => dispatch => {
         })
     })  
 
+}
+
+export const alertCount = () => dispatch => {
+          
+     axios.get(`${config.url}alert-count`)
+        .then(res => {
+            const data = res.data;
+            dispatch({
+                type: ALERT_COUNT,
+                payload : data
+            })
+        })
+}
+
+export const lastPowerOutage = () => dispatch => {
+    axios.get(`${config.url}last-power-outage`)
+        .then(res => {
+            const data = res.data;
+
+            dispatch({
+                type : LAST_POWER_OUTAGE,
+                payload : data
+            })
+        })
+}
+
+export const lastPowerOutageTime = () => dispatch => {
+    axios.get(`${config.url}power-outage-time`)
+    .then(res => {
+        const data = res.data;
+
+        dispatch({
+            type : LAST_POWER_OUTAGE_TIME,
+            payload : data
+        })
+    })
 }
