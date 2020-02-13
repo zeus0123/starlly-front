@@ -39,6 +39,7 @@ const DataAnalysis = () => {
    
    const handleClick = () => {
      dispatch(startAnalysis())
+     alert('File Stream has started Refresh the page after every 2 minutes');
    }
      
     return (
